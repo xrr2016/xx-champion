@@ -1,0 +1,29 @@
+html,
+body {
+  height: 100%;
+}
+
+.generate-column {
+  flex: 1;
+  align-items: stretch;
+  .generate-column-left {
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-right: 1px solid #eee;
+  }
+
+  .generate-column-right {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .download-button {
+      position: absolute;
+      bottom: 0.5rem;
+      left: 50%;
+      width: 240px;
+      transform: translateX(-50%);
+    }
+  }
+}
