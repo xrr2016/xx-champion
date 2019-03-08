@@ -698,10 +698,34 @@
     error-stack-parser "^2.0.0"
     string-width "^2.0.0"
 
+"@types/clipboard@^2.0.1":
+  version "2.0.1"
+  resolved "http://r.cnpmjs.org/@types/clipboard/download/@types/clipboard-2.0.1.tgz#75a74086c293d75b12bc93ff13bc7797fef05a40"
+  integrity sha1-dadAhsKT11sSvJP/E7x3l/7wWkA=
+
+"@types/html2canvas@^0.0.35":
+  version "0.0.35"
+  resolved "http://r.cnpmjs.org/@types/html2canvas/download/@types/html2canvas-0.0.35.tgz#a009681a3207a7a8302e65de034ff8d42c949cf7"
+  integrity sha1-oAloGjIHp6gwLmXeA0/41CyUnPc=
+  dependencies:
+    "@types/jquery" "*"
+
+"@types/jquery@*":
+  version "3.3.29"
+  resolved "http://r.cnpmjs.org/@types/jquery/download/@types/jquery-3.3.29.tgz#680a2219ce3c9250483722fccf5570d1e2d08abd"
+  integrity sha1-aAoiGc48klBINyL8z1Vw0eLQir0=
+  dependencies:
+    "@types/sizzle" "*"
+
 "@types/q@^1.5.1":
   version "1.5.1"
   resolved "http://r.cnpmjs.org/@types/q/download/@types/q-1.5.1.tgz#48fd98c1561fe718b61733daed46ff115b496e18"
   integrity sha1-SP2YwVYf5xi2FzPa7Ub/EVtJbhg=
+
+"@types/sizzle@*":
+  version "2.3.2"
+  resolved "http://r.cnpmjs.org/@types/sizzle/download/@types/sizzle-2.3.2.tgz#a811b8c18e2babab7d542b3365887ae2e4d9de47"
+  integrity sha1-qBG4wY4rq6t9VCszZYh64uTZ3kc=
 
 "@types/webpack-env@^1.13.6":
   version "1.13.7"

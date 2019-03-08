@@ -45,7 +45,7 @@
         />
         <GenerateImage
           v-else-if="selectedType === types[1]"
-          :team="selectedTeam"
+          :nbaTeam="selectedTeam"
           :slogan="selectedSlogan"
           @show-image-modal="showImageModal"
         />
@@ -58,7 +58,11 @@
       </keep-alive>
     </transition>
 
-    <ImageModal :is-show="isShowImageModal" @close-modal="closeImageModal" :image="modalImage"/>
+    <ImageModal
+      :is-show="isShowImageModal"
+      :modalImage="modalImage"
+      @close-modal="closeImageModal"
+    />
   </div>
 </template>
 
@@ -69,6 +73,17 @@ import GenerateImage from "../components/GenerateImage.vue";
 import GenerateGif from "../components/GenerateGif.vue";
 import ImageModal from "../components/ImageModal.vue";
 import { types, teams, slogans, Team, Slogan, Type } from "../models/index";
+
+declare module "vue/types/vue" {
+  interface Vue {
+    selectedTeam: {
+      name: string;
+    };
+    selectedSlogan: {
+      word: string;
+    };
+  }
+}
 
 @Component({
   components: {
@@ -105,7 +120,7 @@ export default class Home extends Vue {
     this.selectedType = type;
   }
 
-  showImageModal(data) {
+  showImageModal(data: any) {
     this.modalImage = data;
     this.isShowImageModal = true;
   }

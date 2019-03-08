@@ -190,8 +190,8 @@
     </div>
 
     <div class="column is-three-quarters generate-column-right">
-      <div class="box is-unselectable output-image-html" ref="imageHtml" :style="imageBoxStyle">
-        <h3 class="title is-3" :style="imageTitleStyle">{{ this.team.name + this.slogan.word }}</h3>
+      <div class="box is-unselectable output-image-html" id="imageHtml" :style="imageBoxStyle">
+        <h3 class="title is-3" :style="imageTitleStyle">{{ this.nbaTeam.name + this.slogan.word }}</h3>
         <p class="author" :style="imageAuthorStyle">
           author:
           <span class="author-name">{{ image.author }}</span>
@@ -214,10 +214,36 @@ import { getMainColor } from "nba-color";
 import { Component, Vue } from "vue-property-decorator";
 import { Team } from "@/models";
 
+declare module "vue/types/vue" {
+  interface Vue {
+    image: {
+      name: string;
+      author: string;
+      width: number;
+      height: number;
+      ratio: string;
+      titleFontSize: number;
+      authorFontSize: number;
+      titleFontWeight: number;
+      authorFontWeight: number;
+      titleColor: string;
+      authorColor: string;
+      backgroundColor: string;
+      backgroundImage: any;
+      backgroundSize: string;
+      backgroundImageUrl: string;
+      backgroundPositionX: number;
+      backgroundPositionY: number;
+      format: string;
+    };
+    nbaTeam: Team;
+  }
+}
+
 @Component({
   name: "GenerateImage",
   props: {
-    team: {
+    nbaTeam: {
       type: Object,
       required: true
     },
@@ -281,7 +307,7 @@ import { Team } from "@/models";
 })
 export default class GenerateImage extends Vue {
   image: any = {
-    name: this.team.name + this.slogan.word,
+    name: this.nbaTeam.name + this.slogan.word,
     author: "王大锤",
     width: 720,
     height: 240,
@@ -292,7 +318,7 @@ export default class GenerateImage extends Vue {
     authorFontWeight: 400,
     titleColor: "#ffffff",
     authorColor: "#ffffff",
-    backgroundColor: getMainColor(this.team.abbr).hex,
+    backgroundColor: getMainColor(this.nbaTeam.abbr).hex,
     backgroundImage: null,
     backgroundSize: "auto",
     backgroundImageUrl: "",
@@ -305,10 +331,11 @@ export default class GenerateImage extends Vue {
 
   generateImage() {
     const { ratio, width, height, name, format } = this.image;
+    const imageHtml: any = document.getElementById("imageHtml");
 
     this.isGenerating = true;
 
-    html2canvas(this.$refs.imageHtml, {
+    html2canvas(imageHtml, {
       width,
       height,
       scale: 1,
@@ -326,7 +353,7 @@ export default class GenerateImage extends Vue {
     });
   }
 
-  handleBgImageChange(event: Event): void {
+  handleBgImageChange(event: any): void {
     const image = event.target.files[0];
     this.image.backgroundImage = image;
     this.image.backgroundImageUrl = `url(${URL.createObjectURL(image)}`;

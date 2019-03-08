@@ -242,6 +242,30 @@ const frames: Array<Frame> = [
   }
 ];
 
+declare module "vue/types/vue" {
+  interface Vue {
+    isGenerating: boolean;
+    finished: number;
+    frames: Array<Frame>;
+    gifImage: {
+      width: number;
+      height: number;
+      subtitle: {
+        bottom: number;
+        fontSize: number;
+        color: string;
+        fontStyle: string;
+      };
+    };
+  }
+}
+
+declare global {
+  interface Window {
+    GIF: any;
+  }
+}
+
 @Component({
   name: "GenerateGif",
   props: {
@@ -293,14 +317,14 @@ export default class GenerateGif extends Vue {
 
     return new Promise(resolve => {
       this.frames.forEach((frame, index) => {
-        const html = document.getElementById(frame.id);
+        const html: any = document.getElementById(frame.id);
 
         html2canvas(html, {
           width,
           height,
           scale: 1,
           logging: false
-        }).then((canvas: HTMLCanvasElement) => {
+        }).then((canvas: any) => {
           frame.data = canvas
             .getContext("2d")
             .getImageData(0, 0, width, height);
@@ -316,6 +340,8 @@ export default class GenerateGif extends Vue {
   async generateGif() {
     const { width, height } = this.gifImage;
     await this.generateFramesData(width, height);
+
+    const { GIF } = window;
 
     const gif = new GIF({
       workers: 2,

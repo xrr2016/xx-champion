@@ -18,9 +18,21 @@
 </template>
 
 <script lang="ts">
-import * as ClipboardJS from "clipboard";
+import ClipboardJS from "clipboard";
 import { Component, Vue } from "vue-property-decorator";
 import { Team, Slogan } from "../models/index";
+
+declare module "vue/types/vue" {
+  interface Vue {
+    team: {
+      src: string;
+      name: string;
+    };
+    slogan: {
+      word: string;
+    };
+  }
+}
 
 @Component({
   name: "GenerateText",
@@ -45,7 +57,7 @@ import { Team, Slogan } from "../models/index";
 })
 export default class GenerateText extends Vue {
   handleCopyClick() {
-    const button: HTMLButtonElement = this.$refs.copyButton;
+    const button: any = this.$refs.copyButton;
     button.setAttribute("data-balloon", "Copied!");
     button.setAttribute("data-balloon-pos", "up");
 

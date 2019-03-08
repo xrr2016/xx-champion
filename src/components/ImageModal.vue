@@ -3,12 +3,12 @@
     <div class="modal-background"></div>
     <div class="modal-card">
       <header class="modal-card-head">
-        <p class="modal-card-title">{{ image.name + '.' + image.format }}</p>
+        <p class="modal-card-title">{{ modalImage.name + '.' + modalImage.format }}</p>
         <button class="delete" aria-label="close" @click="closeModal"></button>
       </header>
       <section class="modal-card-body">
         <p class="image">
-          <img :src="image.src" :alt="image.name">
+          <img :src="modalImage.src" :alt="modalImage.name">
         </p>
       </section>
       <footer class="modal-card-foot">
@@ -21,6 +21,15 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 
+declare module "vue/types/vue" {
+  interface Vue {
+    modalImage: {
+      src: string;
+      name: string;
+    };
+  }
+}
+
 @Component({
   name: "ImageModal",
   props: {
@@ -28,7 +37,7 @@ import { Component, Vue } from "vue-property-decorator";
       type: Boolean,
       default: false
     },
-    image: {
+    modalImage: {
       type: Object,
       required: true
     }
@@ -37,8 +46,8 @@ import { Component, Vue } from "vue-property-decorator";
 export default class ImageModal extends Vue {
   downloadImage() {
     const link = document.createElement("a");
-    link.href = this.image.src;
-    link.download = this.image.name;
+    link.href = this.modalImage.src;
+    link.download = this.modalImage.name;
     link.click();
   }
   closeModal() {
@@ -48,8 +57,6 @@ export default class ImageModal extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.image-modal {
-}
 </style>
 
 
