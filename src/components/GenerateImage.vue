@@ -296,12 +296,12 @@ declare module "vue/types/vue" {
     }
   },
   watch: {
-    team: function(newTeam: Team) {
+    nbaTeam: function(newTeam: Team) {
       this.image.name = newTeam.name + this.slogan.word;
       this.image.backgroundColor = getMainColor(newTeam.abbr).hex;
     },
     slogan: function(newSlogan) {
-      this.image.name = this.team.name + newSlogan.word;
+      this.image.name = this.nbaTeam.name + newSlogan.word;
     }
   }
 })
