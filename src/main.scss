@@ -6,6 +6,7 @@ body {
 .generate-column {
   flex: 1;
   align-items: stretch;
+  margin-bottom: 0 !important;
   .generate-column-left {
     overflow-x: hidden;
     overflow-y: auto;
@@ -13,17 +14,11 @@ body {
   }
 
   .generate-column-right {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    .download-button {
-      position: absolute;
-      bottom: 0.5rem;
-      left: 50%;
+    text-align: center;
+    overflow-x: hidden;
+    overflow-y: auto;
+    .generate-button {
       width: 240px;
-      transform: translateX(-50%);
     }
   }
 }

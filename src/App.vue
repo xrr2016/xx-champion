@@ -14,7 +14,7 @@
       </div>
     </section>
 
-    <!-- <footer class="footer">
+    <footer class="footer">
       <div class="content has-text-centered">
         <p>
           <strong>Bulma</strong> by
@@ -25,7 +25,7 @@
           <router-link to="/about">about</router-link>
         </p>
       </div>
-    </footer>-->
+    </footer>
   </main>
 </template>
 
@@ -48,6 +48,7 @@
     .box {
       flex: 1;
       display: flex;
+      padding-bottom: 0;
     }
   }
 
