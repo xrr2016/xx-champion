@@ -14,5 +14,7 @@ export default async (
 
   const url = `${URL}?q=${query}&from=${from}&to=${to}&appid=${APPID}&salt=${salt}&sign=${sign}`
   const result = await fetch(url)
+    .then(response => response.json())
+    .catch(err => err)
   return result
 }

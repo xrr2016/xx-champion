@@ -1,6 +1,6 @@
 <template>
   <main class="app has-background-white-ter">
-    <nav class="navbar is-black" role="navigation" aria-label="dropdown navigation">
+    <nav class="navbar" role="navigation" aria-label="dropdown navigation">
       <div class="container">
         <div class="navbar-brand">
           <router-link class="navbar-item is-uppercase has-text-weight-semibold" to="/">XXChampion</router-link>
@@ -38,6 +38,14 @@
   display: flex;
   flex-direction: column;
   height: 100vh;
+  .navbar {
+    border-top: 2px solid #3273dc;
+    .navbar-menu {
+      .navbar-item {
+        font-size: 0.9rem;
+      }
+    }
+  }
 
   .body {
     flex: 1;

@@ -21,6 +21,15 @@ export interface Frame {
   data: ImageData
 }
 
+export interface Language {
+  text: string
+  lan: string
+  translating: boolean
+  translated: boolean
+  copied: boolean
+  result: string
+}
+
 export const types: Array<Type> = [
   { text: '文字', value: 'text', selected: true },
   { text: '图片', value: 'image', selected: false },
@@ -30,7 +39,7 @@ export const types: Array<Type> = [
 export const slogans: Array<Slogan> = [
   { word: '总冠军' },
   { word: '一轮游' },
-  { word: '上演黑8' }
+  { word: '黑8' }
 ]
 
 export const teams: Array<Team> = [
@@ -64,4 +73,48 @@ export const teams: Array<Team> = [
   { name: '猛龙', abbr: 'TOR' },
   { name: '爵士', abbr: 'UTA' },
   { name: '奇才', abbr: 'WAS' }
+]
+
+export const languages: Array<Language> = [
+  {
+    text: '英语',
+    lan: 'en',
+    translating: false,
+    translated: false,
+    copied: false,
+    result: ''
+  },
+  {
+    text: '日语',
+    lan: 'jp',
+    translating: false,
+    translated: false,
+    copied: false,
+    result: ''
+  },
+
+  {
+    text: '法语',
+    lan: 'fra',
+    translating: false,
+    translated: false,
+    copied: false,
+    result: ''
+  },
+  {
+    text: '韩语',
+    lan: 'kor',
+    translating: false,
+    translated: false,
+    copied: false,
+    result: ''
+  },
+  {
+    text: '西班牙语',
+    lan: 'spa',
+    translating: false,
+    translated: false,
+    copied: false,
+    result: ''
+  }
 ]
