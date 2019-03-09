@@ -39,7 +39,7 @@ export const types: Array<Type> = [
 export const slogans: Array<Slogan> = [
   { word: '总冠军' },
   { word: '一轮游' },
-  { word: '黑8' }
+  { word: '上演黑八' }
 ]
 
 export const teams: Array<Team> = [

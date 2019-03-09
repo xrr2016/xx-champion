@@ -1,7 +1,6 @@
 import 'balloon-css'
 import 'bulma'
 import Vue from 'vue'
-import 'whatwg-fetch'
 import App from './App.vue'
 import './main.scss'
 import './registerServiceWorker'
