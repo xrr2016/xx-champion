@@ -281,7 +281,8 @@ declare global {
   computed: {
     generateButtonText(): string {
       if (this.isGenerating) {
-        return (this.finished / this.frames.length) * 100 + "%";
+        const rate = this.finished / (this.frames.length * 2);
+        return Math.floor(rate * 100) + "%";
       }
       return "生成";
     },
@@ -352,6 +353,7 @@ export default class GenerateGif extends Vue {
 
     this.frames.forEach((frame, index) => {
       gif.addFrame(frame.data, { copy: true, delay: 100 });
+      this.finished += 1;
     });
 
     gif.on("finished", (blob: Blob) => {

@@ -37,7 +37,7 @@
         </p>
       </div>
 
-      <div class="field has-addons">
+      <!-- <div class="field has-addons">
         <p class="control">
           <a class="button is-static">图片宽高比</a>
         </p>
@@ -48,8 +48,7 @@
             </select>
           </p>
         </div>
-      </div>
-
+      </div>-->
       <div class="field has-addons">
         <p class="control">
           <a class="button is-static">标题字体大小</a>
@@ -338,7 +337,6 @@ export default class GenerateImage extends Vue {
     html2canvas(imageHtml, {
       width,
       height,
-      scale: 1,
       logging: false
     }).then((canvas: HTMLCanvasElement) => {
       const src = canvas.toDataURL(format);

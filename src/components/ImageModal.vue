@@ -49,6 +49,7 @@ export default class ImageModal extends Vue {
     link.href = this.modalImage.src;
     link.download = this.modalImage.name;
     link.click();
+    this.closeModal();
   }
   closeModal() {
     this.$emit("close-modal");
