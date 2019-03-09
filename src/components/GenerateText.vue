@@ -1,9 +1,12 @@
 <template>
   <div class="columns generate-column">
     <div class="column generate-column-left">
-      <a class="button is-text is-fullwidth">中文</a>
-      <a class="button is-text is-fullwidth">英语</a>
-      <a class="button is-text is-fullwidth">日语</a>
+      <a
+        class="button is-text is-fullwidth"
+        v-for="(item, index) of languages"
+        :key="index"
+        @click="handleButtonClick(item)"
+      >{{ item.text }}</a>
     </div>
     <div class="column is-three-quarters generate-column-right">
       <h3 class="subtitle is-3 render-text">{{ renderText }}</h3>
@@ -22,6 +25,8 @@ import ClipboardJS from "clipboard";
 import { Component, Vue } from "vue-property-decorator";
 import { Team, Slogan } from "../models/index";
 
+import translate from "../api/translate";
+
 declare module "vue/types/vue" {
   interface Vue {
     team: {
@@ -31,6 +36,7 @@ declare module "vue/types/vue" {
     slogan: {
       word: string;
     };
+    renderText: string;
   }
 }
 
@@ -56,6 +62,35 @@ declare module "vue/types/vue" {
   }
 })
 export default class GenerateText extends Vue {
+  languages: Array<object> = [
+    {
+      text: "中文",
+      lan: "zh"
+    },
+    {
+      text: "英语",
+      lan: "en"
+    },
+    {
+      text: "日语",
+      lan: "jp"
+    },
+    {
+      text: "西班牙语",
+      lan: "spa"
+    },
+    {
+      text: "法语",
+      lan: "fra"
+    },
+    {
+      text: "韩语",
+      lan: "kor"
+    }
+  ];
+
+  isTranslating: boolean = false;
+
   handleCopyClick() {
     const button: any = this.$refs.copyButton;
     button.setAttribute("data-balloon", "Copied!");
@@ -68,17 +103,19 @@ export default class GenerateText extends Vue {
     }, 5000);
   }
 
-  handleLanguageClick() {
-    // translate("Ik spreek Engels", { to: "en" })
-    //   .then(res => {
-    //     console.log(res.text);
-    //     //=> I speak English
-    //     console.log(res.from.language.iso);
-    //     //=> nl
-    //   })
-    //   .catch(err => {
-    //     console.error(err);
-    //   });
+  handleButtonClick(item: any) {
+    if (item.lan === "zh") {
+      return;
+    }
+    this.isTranslating = true;
+    const query = this.renderText;
+    translate(query, "zh", item.lan)
+      .then(res => {
+        console.log("res :", res);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 }
 </script>

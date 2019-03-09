@@ -145,19 +145,5 @@ export default class Home extends Vue {
     margin-bottom: 0.75rem;
   }
 }
-
-.slide-enter {
-  opacity: 0;
-  transform: translateX(10px);
-}
-
-.slide-enter-active {
-  transition: all 0.3s ease;
-}
-
-.slide-enter-to {
-  opacity: 1;
-  transform: translateX(0);
-}
 </style>
 

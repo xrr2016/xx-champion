@@ -7,6 +7,20 @@ body::-webkit-scrollbar {
   width: 0;
 }
 
+.slide-enter {
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+.slide-enter-active {
+  transition: all 0.3s ease;
+}
+
+.slide-enter-to {
+  opacity: 1;
+  transform: translateX(0);
+}
+
 .generate-column {
   flex: 1;
   align-items: stretch;
@@ -24,31 +38,5 @@ body::-webkit-scrollbar {
     .generate-button {
       width: 240px;
     }
-  }
-}
-
-.github-corner:hover .octo-arm {
-  animation: octocat-wave 560ms ease-in-out;
-}
-@keyframes octocat-wave {
-  0%,
-  100% {
-    transform: rotate(0);
-  }
-  20%,
-  60% {
-    transform: rotate(-25deg);
-  }
-  40%,
-  80% {
-    transform: rotate(10deg);
-  }
-}
-@media (max-width: 500px) {
-  .github-corner:hover .octo-arm {
-    animation: none;
-  }
-  .github-corner .octo-arm {
-    animation: octocat-wave 560ms ease-in-out;
   }
 }
