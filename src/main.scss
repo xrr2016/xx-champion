@@ -42,3 +42,11 @@ body::-webkit-scrollbar {
     }
   }
 }
+
+.about,
+.help-page {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: calc(100vh - 7.5rem);
+}

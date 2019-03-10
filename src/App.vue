@@ -33,6 +33,13 @@
   </main>
 </template>
 
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+
+@Component({})
+export default class App extends Vue {}
+</script>
+
 <style lang="scss" scoped>
 .app {
   display: flex;
@@ -43,6 +50,9 @@
     .navbar-menu {
       .navbar-item {
         font-size: 0.9rem;
+        &.is-active {
+          border-bottom: 1px solid #3273dc;
+        }
       }
     }
   }
