@@ -12,12 +12,13 @@ export const types: Array<Type> = [
 
 export interface Slogan {
   word: string
+  mark: number
 }
 
 export const slogans: Array<Slogan> = [
-  { word: '总冠军' },
-  { word: '一轮游' },
-  { word: '真香' }
+  { word: '总冠军', mark: 0 },
+  { word: '一轮游', mark: 1 },
+  { word: '比赛真好看', mark: 2 }
 ]
 
 export interface Team {

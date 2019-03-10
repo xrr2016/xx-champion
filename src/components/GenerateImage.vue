@@ -1,6 +1,11 @@
 <template>
   <div class="columns generate-column">
     <div class="column generate-column-left">
+      <div class="field has-addons">
+        <p class="control is-expanded">
+          <input class="input" type="text" v-model="renderText">
+        </p>
+      </div>
       <!-- <div class="field has-addons">
         <p class="control">
           <a class="button is-static">图片名称</a>
@@ -189,7 +194,7 @@
 
     <div class="column is-three-quarters generate-column-right">
       <div class="box is-unselectable output-image-html" id="imageHtml" :style="imageBoxStyle">
-        <h3 class="title is-3" :style="imageTitleStyle">{{ this.nbaTeam.name + this.slogan.word }}</h3>
+        <h3 class="title is-3" :style="imageTitleStyle">{{ renderText }}</h3>
         <p class="author" :style="imageAuthorStyle">
           author:
           <span class="author-name">{{ image.author }}</span>
@@ -295,11 +300,15 @@ declare module "vue/types/vue" {
   },
   watch: {
     nbaTeam: function(newTeam: Team) {
-      this.image.name = newTeam.name + this.slogan.word;
+      const renderText = newTeam.name + this.slogan.word;
+      this.image.name = renderText;
+      this.renderText = renderText;
       this.image.backgroundColor = getMainColor(newTeam.abbr).hex;
     },
     slogan: function(newSlogan) {
-      this.image.name = this.nbaTeam.name + newSlogan.word;
+      const renderText = this.nbaTeam.name + newSlogan.word;
+      this.image.name = renderText;
+      this.renderText = renderText;
     }
   }
 })
@@ -326,6 +335,7 @@ export default class GenerateImage extends Vue {
   };
 
   isGenerating: boolean = false;
+  renderText: string = this.nbaTeam.name + this.slogan.word;
 
   generateImage() {
     const { ratio, width, height, name, format } = this.image;

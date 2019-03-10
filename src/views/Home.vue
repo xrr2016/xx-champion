@@ -51,8 +51,8 @@
         />
         <GenerateGif
           v-else-if="selectedType === types[2]"
-          :team="selectedTeam"
-          :slogan="selectedSlogan"
+          :selectedTeam="selectedTeam"
+          :selectedSlogan="selectedSlogan"
           @show-image-modal="showImageModal"
         />
       </keep-alive>

@@ -2,18 +2,26 @@
   <div class="columns generate-column">
     <div class="column generate-column-left">
       <div class="fields">
-        <div class="field has-addons">
-          <a class="button is-white is-fullwidth">中文</a>
-          <button class="button" disabled>翻译</button>
+        <div class="field">
+          <input class="input has-text-centered" type="text" v-model="renderText">
         </div>
+
         <div
           class="field has-addons"
           v-for="(item, index) of languages"
           :key="index"
           @click="handleButtonClick(item, index)"
         >
-          <a class="button is-white is-fullwidth">{{ item.text }}</a>
-          <button class="button" :class="{'is-loading': isTranslating}" :disabled="isTranslating">翻译</button>
+          <p class="control is-expanded">
+            <a
+              class="button is-white is-fullwidth"
+              :disabled="isTranslating"
+              title="点击翻译"
+            >{{ item.text }}</a>
+          </p>
+          <!-- <p class="control">
+            <button class="button is-white" :class="{'is-loading': isTranslating}"></button>
+          </p>-->
         </div>
       </div>
 
@@ -90,11 +98,16 @@ declare module "vue/types/vue" {
     });
   },
   computed: {
-    renderText(): string {
-      return this.team.name + this.slogan.word;
-    },
     renderTranslateTimes(): string {
       return `${this.translateTimes.current} / ${this.translateTimes.total}`;
+    }
+  },
+  watch: {
+    team: function(newVal) {
+      this.renderText = newVal.name + this.slogan.word;
+    },
+    slogan: function(newVal) {
+      this.renderText = this.team.name + newVal.word;
     }
   }
 })
@@ -106,6 +119,7 @@ export default class GenerateText extends Vue {
     total: 30,
     date: new Date().toLocaleDateString()
   };
+  renderText: string = this.team.name + this.slogan.word;
 
   handleButtonClick(item: Language, index: number) {
     if (this.isTranslating) {

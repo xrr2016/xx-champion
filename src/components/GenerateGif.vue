@@ -9,8 +9,8 @@
           <input
             class="input"
             type="text"
-            v-model="item.word"
             maxlength="20"
+            v-model="item.word"
             @input="handleSubtitleInput(item)"
           >
         </p>
@@ -114,11 +114,12 @@
 
       <button
         class="button is-info is-outlined is-fullwidth generate-button"
+        :class="{'is-loading': isGenerating}"
         :disabled="isGenerating"
         @click="generateGif"
-      >{{ generateButtonText }}</button>
+      >生成</button>
     </div>
-    <ul class="column is-three-quarters generate-column-right" type="1">
+    <ul class="column is-three-quarters generate-column-right">
       <li class="card field" v-for="(frame, index) of context.frames" :key="index">
         <div class="card-image frame" :id="frame.id">
           <figure class="image">
@@ -164,7 +165,6 @@ declare module "vue/types/vue" {
       };
     };
     context: any;
-    finished: number;
     isGenerating: boolean;
   }
 }
@@ -175,40 +175,19 @@ declare global {
   }
 }
 
-function changeSlogan(word: string, self: any) {
-  switch (word) {
-    case "总冠军":
-      self.context = zongguanjun;
-      break;
-    case "一轮游":
-      self.context = yilunyou;
-      break;
-    case "真香":
-      self.context = zhengxiang;
-      break;
-  }
-}
-
 @Component({
   name: "GenerateGif",
   props: {
-    team: {
+    selectedTeam: {
       type: Object,
       required: true
     },
-    slogan: {
+    selectedSlogan: {
       type: Object,
       required: true
     }
   },
   computed: {
-    generateButtonText(): string {
-      if (this.isGenerating) {
-        const rate = this.finished / (this.context.frames.length * 2);
-        return Math.floor(rate * 100) + "%";
-      }
-      return "生成";
-    },
     imageStyle() {
       const { width, height } = this.gifImage;
       return {
@@ -227,39 +206,51 @@ function changeSlogan(word: string, self: any) {
     }
   },
   watch: {
-    team: function(newVal, oldVal) {
-      if (newVal.abbr === oldVal.abbr) {
-        return;
-      }
-
+    selectedTeam: function(newVal, oldVal) {
       const { meta } = this.context;
       const subtitle = this.context.subtitles[meta.teamNameIndex];
 
-      meta.teamName = newVal.name;
       subtitle.word = subtitle.word.replace(oldVal.name, newVal.name);
-
       this.context.frames.forEach((frame: any, index: number) => {
         if (index >= subtitle.start && index <= subtitle.end) {
           frame.subtitle = subtitle.word;
         }
       });
     },
-    slogan: function(newVal, oldVal) {
-      if (newVal.word === oldVal.word) {
-        return;
+    selectedSlogan: function(newVal, oldVal) {
+      switch (newVal.mark) {
+        case 0:
+          this.context = zongguanjun;
+          break;
+        case 1:
+          this.context = yilunyou;
+          break;
+        case 2:
+          this.context = zhengxiang;
+          break;
       }
-      changeSlogan(newVal.word, this);
+
       this.gifImage.delay = this.context.frames[0].delay;
     }
   },
   mounted() {
-    changeSlogan(this.slogan.word, this);
+    switch (this.selectedSlogan.mark) {
+      case 0:
+        this.context = zongguanjun;
+        break;
+      case 1:
+        this.context = yilunyou;
+        break;
+      case 2:
+        this.context = zhengxiang;
+        break;
+    }
     this.gifImage.delay = this.context.frames[0].delay;
   }
 })
 export default class GenerateGif extends Vue {
   gifImage = {
-    name: this.team.name + this.slogan.word,
+    name: this.selectedTeam.name + this.selectedSlogan.word,
     width: 480,
     height: 240,
     delay: 0,
@@ -271,18 +262,14 @@ export default class GenerateGif extends Vue {
     }
   };
 
-  context: any = {
-    meta: null,
-    frames: [],
-    subtitles: []
-  };
-
-  finished: number = 0;
+  context: any = zongguanjun;
   isGenerating: boolean = false;
 
   generateFrames() {
     const frames = this.context.frames;
     const { width, height } = this.gifImage;
+
+    let finished = 0;
 
     return new Promise(resolve => {
       frames.forEach((frame: any, index: number) => {
@@ -295,8 +282,8 @@ export default class GenerateGif extends Vue {
           frame.data = canvas
             .getContext("2d")
             .getImageData(0, 0, width, height);
-          this.finished += 1;
-          if (this.finished >= frames.length) {
+          finished += 1;
+          if (finished >= frames.length) {
             resolve();
           }
         });
@@ -322,13 +309,11 @@ export default class GenerateGif extends Vue {
 
     frames.forEach((frame: any, index: number) => {
       gif.addFrame(frame.data, { copy: true, delay: frame.delay });
-      this.finished += 1;
     });
 
     gif.on("finished", (blob: Blob) => {
       const src = URL.createObjectURL(blob);
 
-      this.finished = 0;
       this.isGenerating = false;
       this.$emit("show-image-modal", { src, name, format: "gif" });
     });
