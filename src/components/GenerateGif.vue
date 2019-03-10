@@ -1,12 +1,27 @@
 <template>
   <div class="columns generate-column">
     <div class="column generate-column-left">
+      <div class="field has-addons" v-for="(item, index) of context.subtitles" :key="index">
+        <p class="control">
+          <a class="button is-static">第{{ index + 1 }}句</a>
+        </p>
+        <p class="control is-expanded">
+          <input
+            class="input"
+            type="text"
+            v-model="item.word"
+            maxlength="20"
+            @input="handleSubtitleInput(item)"
+          >
+        </p>
+      </div>
+
       <div class="field has-addons">
         <p class="control">
           <a class="button is-static">图片宽度</a>
         </p>
         <p class="control is-expanded">
-          <input class="input" type="number" min="320" max="720" step="10" v-model="gifImage.width">
+          <input class="input" type="number" min="240" max="720" step="10" v-model="gifImage.width">
         </p>
       </div>
 
@@ -18,13 +33,14 @@
           <input
             class="input"
             type="number"
-            min="320"
             max="720"
+            min="160"
             step="10"
             v-model="gifImage.height"
           >
         </p>
       </div>
+
       <div class="field has-addons">
         <p class="control">
           <a class="button is-static">字体大小</a>
@@ -40,6 +56,7 @@
           >
         </p>
       </div>
+
       <div class="field has-addons">
         <p class="control">
           <a class="button is-static">字体颜色</a>
@@ -48,6 +65,7 @@
           <input class="input" type="color" v-model="gifImage.subtitle.color">
         </p>
       </div>
+
       <div class="field has-addons">
         <p class="control">
           <a class="button is-static">字体样式</a>
@@ -61,6 +79,7 @@
           </p>
         </div>
       </div>
+
       <div class="field has-addons">
         <p class="control">
           <a class="button is-static">字体距底部高度</a>
@@ -77,32 +96,48 @@
         </p>
       </div>
 
+      <div class="field has-addons">
+        <p class="control">
+          <a class="button is-static">图片间隔时间</a>
+        </p>
+        <p class="control is-expanded">
+          <input
+            class="input"
+            type="number"
+            max="2000"
+            min="100"
+            step="10"
+            v-model="gifImage.delay"
+          >
+        </p>
+      </div>
+
       <button
         class="button is-info is-outlined is-fullwidth generate-button"
         :disabled="isGenerating"
         @click="generateGif"
       >{{ generateButtonText }}</button>
     </div>
-    <div class="column is-three-quarters generate-column-right">
-      <div class="card" v-for="(frame, index) of frames" :key="index">
-        <div class="card-image" :id="frame.id">
+    <ul class="column is-three-quarters generate-column-right" type="1">
+      <li class="card field" v-for="(frame, index) of context.frames" :key="index">
+        <div class="card-image frame" :id="frame.id">
           <figure class="image">
-            <img src="../assets/logo.png" width="480" height="270">
+            <img :style="imageStyle" :src="frame.image">
           </figure>
           <h4 class="subtitle is-4" :style="subtitleStyle">{{ frame.subtitle }}</h4>
         </div>
         <div class="card-content">
           <div class="field has-addons">
             <p class="control">
-              <a class="button is-static">台词</a>
+              <a class="button is-static">{{ index + 1}}</a>
             </p>
             <p class="control is-expanded">
               <input class="input" type="text" placeholder="输入台词" v-model="frame.subtitle">
             </p>
           </div>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -110,146 +145,17 @@
 import html2canvas from "html2canvas";
 import { Component, Vue } from "vue-property-decorator";
 
-import { Frame } from "../models/index";
-
-const frames: Array<Frame> = [
-  {
-    id: "animebuilder-000",
-    delay: 500,
-    image: "../assets/frames/animebuilder/001.png",
-    subtitle: "animebuilder/000.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-001",
-    delay: 1000,
-    image: "../assets/frames/animebuilder/005.png",
-    subtitle: "animebuilder/001.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-002",
-    delay: 1500,
-    image: "../assets/frames/animebuilder/010.png",
-    subtitle: "animebuilder/002.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-003",
-    delay: 2000,
-    image: "../assets/frames/animebuilder/013.png",
-    subtitle: "animebuilder/003.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-004",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/004.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-005",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/005.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-006",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/006.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-007",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/007.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-008",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/008.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-009",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/009.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-009",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/009.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-009",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/009.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-009",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/009.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-009",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/009.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-009",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/009.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-009",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/009.png",
-    data: new ImageData(1, 1)
-  },
-
-  {
-    id: "animebuilder-009",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/012.png",
-    data: new ImageData(1, 1)
-  },
-  {
-    id: "animebuilder-009",
-    delay: 2500,
-    image: "../assets/frames/animebuilder/018.png",
-    subtitle: "animebuilder/009.png",
-    data: new ImageData(1, 1)
-  }
-];
+import yilunyou from "../models/yilunyou";
+import zhengxiang from "../models/zhengxiang";
+import zongguanjun from "../models/zongguanjun";
+import { Frame, Team, Slogan, slogans } from "../models/index";
 
 declare module "vue/types/vue" {
   interface Vue {
-    isGenerating: boolean;
-    finished: number;
-    frames: Array<Frame>;
     gifImage: {
       width: number;
       height: number;
+      delay: number;
       subtitle: {
         bottom: number;
         fontSize: number;
@@ -257,12 +163,29 @@ declare module "vue/types/vue" {
         fontStyle: string;
       };
     };
+    context: any;
+    finished: number;
+    isGenerating: boolean;
   }
 }
 
 declare global {
   interface Window {
     GIF: any;
+  }
+}
+
+function changeSlogan(word: string, self: any) {
+  switch (word) {
+    case "总冠军":
+      self.context = zongguanjun;
+      break;
+    case "一轮游":
+      self.context = yilunyou;
+      break;
+    case "真香":
+      self.context = zhengxiang;
+      break;
   }
 }
 
@@ -281,10 +204,17 @@ declare global {
   computed: {
     generateButtonText(): string {
       if (this.isGenerating) {
-        const rate = this.finished / (this.frames.length * 2);
+        const rate = this.finished / (this.context.frames.length * 2);
         return Math.floor(rate * 100) + "%";
       }
       return "生成";
+    },
+    imageStyle() {
+      const { width, height } = this.gifImage;
+      return {
+        width: width + "px",
+        height: height + "px"
+      };
     },
     subtitleStyle(): object {
       const { bottom, fontSize, color, fontStyle } = this.gifImage.subtitle;
@@ -295,34 +225,70 @@ declare global {
         fontSize: fontSize + "px"
       };
     }
+  },
+  watch: {
+    team: function(newVal, oldVal) {
+      if (newVal.abbr === oldVal.abbr) {
+        return;
+      }
+
+      const { meta } = this.context;
+      const subtitle = this.context.subtitles[meta.teamNameIndex];
+
+      meta.teamName = newVal.name;
+      subtitle.word = subtitle.word.replace(oldVal.name, newVal.name);
+
+      this.context.frames.forEach((frame: any, index: number) => {
+        if (index >= subtitle.start && index <= subtitle.end) {
+          frame.subtitle = subtitle.word;
+        }
+      });
+    },
+    slogan: function(newVal, oldVal) {
+      if (newVal.word === oldVal.word) {
+        return;
+      }
+      changeSlogan(newVal.word, this);
+      this.gifImage.delay = this.context.frames[0].delay;
+    }
+  },
+  mounted() {
+    changeSlogan(this.slogan.word, this);
+    this.gifImage.delay = this.context.frames[0].delay;
   }
 })
 export default class GenerateGif extends Vue {
   gifImage = {
+    name: this.team.name + this.slogan.word,
     width: 480,
-    height: 270,
+    height: 240,
+    delay: 0,
     subtitle: {
       bottom: 16,
       fontSize: 24,
-      color: "#4a4a4a",
+      color: "#ffffff",
       fontStyle: "normal"
     }
   };
 
-  frames: Array<Frame> = frames;
-  isGenerating: boolean = false;
-  finished: number = 0;
+  context: any = {
+    meta: null,
+    frames: [],
+    subtitles: []
+  };
 
-  generateFramesData(width: number, height: number) {
-    this.isGenerating = true;
+  finished: number = 0;
+  isGenerating: boolean = false;
+
+  generateFrames() {
+    const frames = this.context.frames;
+    const { width, height } = this.gifImage;
 
     return new Promise(resolve => {
-      this.frames.forEach((frame, index) => {
+      frames.forEach((frame: any, index: number) => {
         const html: any = document.getElementById(frame.id);
 
         html2canvas(html, {
-          width,
-          height,
           scale: 1,
           logging: false
         }).then((canvas: any) => {
@@ -330,7 +296,7 @@ export default class GenerateGif extends Vue {
             .getContext("2d")
             .getImageData(0, 0, width, height);
           this.finished += 1;
-          if (this.finished >= this.frames.length) {
+          if (this.finished >= frames.length) {
             resolve();
           }
         });
@@ -339,10 +305,11 @@ export default class GenerateGif extends Vue {
   }
 
   async generateGif() {
-    const { width, height } = this.gifImage;
-    await this.generateFramesData(width, height);
+    this.isGenerating = true;
 
     const { GIF } = window;
+    const frames = this.context.frames;
+    const { width, height, name } = this.gifImage;
 
     const gif = new GIF({
       workers: 2,
@@ -351,8 +318,10 @@ export default class GenerateGif extends Vue {
       height
     });
 
-    this.frames.forEach((frame, index) => {
-      gif.addFrame(frame.data, { copy: true, delay: 100 });
+    await this.generateFrames();
+
+    frames.forEach((frame: any, index: number) => {
+      gif.addFrame(frame.data, { copy: true, delay: frame.delay });
       this.finished += 1;
     });
 
@@ -361,29 +330,23 @@ export default class GenerateGif extends Vue {
 
       this.finished = 0;
       this.isGenerating = false;
-      this.$emit("show-image-modal", { src, name: "aaa", format: "gif" });
+      this.$emit("show-image-modal", { src, name, format: "gif" });
     });
 
     gif.render();
   }
+
+  handleSubtitleInput(item: any) {
+    this.context.frames.forEach((frame: any, index: number) => {
+      if (index >= item.start && index <= item.end) {
+        frame.subtitle = item.word;
+      }
+    });
+  }
 }
-// const link = document.createElement("a");
-// link.href = url;
-// link.download = "finished";
-// link.click();
 </script>
 
 <style lang="scss" scoped>
-.card:not(:last-of-type) {
-  margin-bottom: 0.75rem;
-}
-// .generate-column-left {
-//   position: relative;
-//   .generate-button {
-//     position: absolute;
-//     bottom: 1rem;
-//   }
-// }
 .generate-column-right {
   display: flex;
   flex-direction: column;
@@ -391,10 +354,6 @@ export default class GenerateGif extends Vue {
   align-items: center;
   .card-image {
     position: relative;
-    img {
-      width: 480px;
-      height: 270px;
-    }
     .subtitle {
       position: absolute;
       bottom: 1rem;
@@ -402,11 +361,11 @@ export default class GenerateGif extends Vue {
       padding: 0 1em;
       text-align: center;
       background: transparent;
+      letter-spacing: 1px;
     }
   }
   .card-content {
-    padding: 1rem;
-    border-top: 1px solid #dbdbdb;
+    padding: 0.8rem;
   }
 }
 </style>

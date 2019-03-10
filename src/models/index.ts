@@ -1,33 +1,7 @@
-export interface Team {
-  name: string
-  abbr: string
-}
-
-export interface Slogan {
-  word: string
-}
-
 export interface Type {
   text: string
   value: string
   selected: boolean
-}
-
-export interface Frame {
-  id: string
-  image: string
-  subtitle: string
-  delay: number
-  data: ImageData
-}
-
-export interface Language {
-  text: string
-  lan: string
-  translating: boolean
-  translated: boolean
-  copied: boolean
-  result: string
 }
 
 export const types: Array<Type> = [
@@ -36,11 +10,20 @@ export const types: Array<Type> = [
   { text: 'GIF', value: 'gif', selected: false }
 ]
 
+export interface Slogan {
+  word: string
+}
+
 export const slogans: Array<Slogan> = [
   { word: '总冠军' },
   { word: '一轮游' },
-  { word: '上演黑八' }
+  { word: '真香' }
 ]
+
+export interface Team {
+  name: string
+  abbr: string
+}
 
 export const teams: Array<Team> = [
   { name: '老鹰', abbr: 'ATL' },
@@ -74,6 +57,15 @@ export const teams: Array<Team> = [
   { name: '爵士', abbr: 'UTA' },
   { name: '奇才', abbr: 'WAS' }
 ]
+
+export interface Language {
+  text: string
+  lan: string
+  translating: boolean
+  translated: boolean
+  copied: boolean
+  result: string
+}
 
 export const languages: Array<Language> = [
   {
@@ -118,3 +110,11 @@ export const languages: Array<Language> = [
     result: ''
   }
 ]
+
+export interface Frame {
+  id: string
+  image: string
+  subtitle: string
+  delay: number
+  data: ImageData
+}

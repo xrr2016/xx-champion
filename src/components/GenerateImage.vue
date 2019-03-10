@@ -1,24 +1,14 @@
 <template>
   <div class="columns generate-column">
     <div class="column generate-column-left">
-      <div class="field has-addons">
+      <!-- <div class="field has-addons">
         <p class="control">
           <a class="button is-static">图片名称</a>
         </p>
         <p class="control is-expanded">
           <input class="input" type="text" v-model="image.name">
         </p>
-      </div>
-
-      <div class="field has-addons">
-        <p class="control">
-          <a class="button is-static">作者名称</a>
-        </p>
-        <p class="control is-expanded">
-          <input class="input" type="text" v-model="image.author">
-        </p>
-      </div>
-
+      </div>-->
       <div class="field has-addons">
         <p class="control">
           <a class="button is-static">图片宽度</a>
@@ -184,6 +174,15 @@
         </p>
         <p class="control is-expanded">
           <input class="input" type="number" step="1" v-model="image.backgroundPositionY">
+        </p>
+      </div>
+
+      <div class="field has-addons">
+        <p class="control">
+          <a class="button is-static">作者名称</a>
+        </p>
+        <p class="control is-expanded">
+          <input class="input" type="text" v-model="image.author">
         </p>
       </div>
     </div>

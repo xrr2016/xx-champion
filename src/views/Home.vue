@@ -76,12 +76,8 @@ import { types, teams, slogans, Team, Slogan, Type } from "../models/index";
 
 declare module "vue/types/vue" {
   interface Vue {
-    selectedTeam: {
-      name: string;
-    };
-    selectedSlogan: {
-      word: string;
-    };
+    selectedTeam: Team;
+    selectedSlogan: Slogan;
   }
 }
 
