@@ -1,5 +1,7 @@
 import 'balloon-css'
 import 'bulma'
+import 'noty/lib/noty.css'
+import 'noty/lib/themes/nest.css'
 import Vue from 'vue'
 import App from './App.vue'
 import './main.scss'

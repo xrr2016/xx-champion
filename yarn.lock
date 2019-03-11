@@ -3881,6 +3881,11 @@ ignore@^4.0.3:
   resolved "http://r.cnpmjs.org/ignore/download/ignore-4.0.6.tgz#750e3db5862087b4737ebac8207ffd1ef27b25fc"
   integrity sha1-dQ49tYYgh7RzfrrIIH/9HvJ7Jfw=
 
+img-2@^0.0.4:
+  version "0.0.4"
+  resolved "http://r.cnpmjs.org/img-2/download/img-2-0.0.4.tgz#0283748f9fb5a0a9bca20e8d2d29614844131cfd"
+  integrity sha1-AoN0j5+1oKm8og6NLSlhSEQTHP0=
+
 immediate@~3.0.5:
   version "3.0.6"
   resolved "http://r.cnpmjs.org/immediate/download/immediate-3.0.6.tgz#9db1dbd0faf8de6fbe0f5dd5e56bb606280de69b"
@@ -5217,6 +5222,11 @@ normalize-url@^3.0.0:
   version "3.3.0"
   resolved "http://r.cnpmjs.org/normalize-url/download/normalize-url-3.3.0.tgz#b2e1c4dc4f7c6d57743df733a4f5978d18650559"
   integrity sha1-suHE3E98bVd0PfczpPWXjRhlBVk=
+
+noty@^3.2.0-beta:
+  version "3.2.0-beta"
+  resolved "http://r.cnpmjs.org/noty/download/noty-3.2.0-beta.tgz#cd1117277a1b83c9b08dfc78f968c6c5960d3cfa"
+  integrity sha1-zREXJ3obg8mwjfx4+WjGxZYNPPo=
 
 npm-bundled@^1.0.1:
   version "1.0.6"

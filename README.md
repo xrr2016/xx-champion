@@ -1,8 +1,10 @@
 # XXCHAMPION
 
-![](http://progressed.io/bar/70?title=done) [![Netlify Status](https://api.netlify.com/api/v1/badges/4bae4ab0-5c29-43c3-a685-b15c77a21f92/deploy-status)](https://app.netlify.com/sites/xx-champion/deploys)
-
 > 大声喊出你的口号
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/4bae4ab0-5c29-43c3-a685-b15c77a21f92/deploy-status)](https://app.netlify.com/sites/xx-champion/deploys)
+
+![home](home.jpg)
 
 [https://xxchampion.xyz](https://xxchampion.xyz/)
 

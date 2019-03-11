@@ -3,7 +3,12 @@
     <div class="column generate-column-left">
       <div class="fields">
         <div class="field">
-          <input class="input has-text-centered" type="text" v-model="renderText">
+          <input
+            class="input has-text-centered"
+            ref="renderTextInput"
+            type="text"
+            v-model="renderText"
+          >
         </div>
 
         <div
@@ -46,12 +51,13 @@
 </template>
 
 <script lang="ts">
+import Noty from "noty";
 import ClipboardJS from "clipboard";
-import { Component, Vue } from "vue-property-decorator";
-import { Team, Slogan, Language, languages } from "../models/index";
 import localforage from "localforage";
+import { Component, Vue } from "vue-property-decorator";
 
 import translate from "../api/translate";
+import { Team, Slogan, Language, languages } from "../models/index";
 
 declare module "vue/types/vue" {
   interface Vue {
@@ -81,6 +87,9 @@ declare module "vue/types/vue" {
     }
   },
   mounted() {
+    // const input = this.$refs.renderTextInput as HTMLInputElement;
+    // input.focus();
+
     new ClipboardJS(".copy-button");
     localforage.getItem("translateTimes").then((value: any) => {
       if (value) {
@@ -116,7 +125,7 @@ export default class GenerateText extends Vue {
   languages: Array<Language> = languages;
   translateTimes: any = {
     current: 0,
-    total: 30,
+    total: 60,
     date: new Date().toLocaleDateString()
   };
   renderText: string = this.team.name + this.slogan.word;
@@ -127,6 +136,13 @@ export default class GenerateText extends Vue {
     }
 
     if (this.translateTimes.current >= this.translateTimes.total) {
+      new Noty({
+        timeout: 1000,
+        theme: "nest",
+        type: "warning",
+        layout: "topCenter",
+        text: "今日使用次数已用完"
+      }).show();
       return;
     }
 
@@ -136,6 +152,9 @@ export default class GenerateText extends Vue {
     translate(query, "zh", item.lan)
       .then(data => {
         const { trans_result } = data;
+        if (!trans_result) {
+          return;
+        }
         this.languages[index] = {
           ...item,
           translated: true,
@@ -145,7 +164,13 @@ export default class GenerateText extends Vue {
         localforage.setItem("translateTimes", this.translateTimes);
       })
       .catch(err => {
-        console.error(err);
+        new Noty({
+          timeout: 1000,
+          theme: "nest",
+          type: "warning",
+          layout: "topCenter",
+          text: "翻译失败，请重试"
+        }).show();
       })
       .finally(() => {
         this.isTranslating = false;
