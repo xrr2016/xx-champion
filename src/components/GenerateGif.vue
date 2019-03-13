@@ -120,7 +120,7 @@
       >生成</button>
     </div>
     <ul class="column is-three-quarters generate-column-right">
-      <li class="card field" v-for="(frame, index) of context.frames" :key="index">
+      <!-- <li class="card field" v-for="(frame, index) of context.frames" :key="index">
         <div class="card-image frame" :id="frame.id">
           <figure class="image">
             <img :style="imageStyle" :src="frame.image">
@@ -137,7 +137,15 @@
             </p>
           </div>
         </div>
-      </li>
+      </li>-->
+      <GifFrame
+        v-for="(frame, index) of context.frames"
+        :key="index"
+        :frame="frame"
+        :imageStyle="imageStyle"
+        :subtitleStyle="subtitleStyle"
+        :frameIndex="index"
+      />
     </ul>
   </div>
 </template>
@@ -146,6 +154,7 @@
 import html2canvas from "html2canvas";
 import { Component, Vue } from "vue-property-decorator";
 
+import GifFrame from "./GifFrame.vue";
 import yilunyou from "../models/yilunyou";
 import zhengxiang from "../models/zhengxiang";
 import zongguanjun from "../models/zongguanjun";
@@ -186,6 +195,9 @@ declare global {
       type: Object,
       required: true
     }
+  },
+  components: {
+    GifFrame
   },
   computed: {
     imageStyle() {

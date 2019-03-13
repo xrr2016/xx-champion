@@ -32,6 +32,24 @@
         </p>
       </div>
 
+      <div class="field has-addons">
+        <p class="control">
+          <a class="button is-static">标题横轴位置</a>
+        </p>
+        <p class="control is-expanded">
+          <input class="input" type="number" max="100" min="0" v-model="image.titlePositionX">
+        </p>
+      </div>
+
+      <div class="field has-addons">
+        <p class="control">
+          <a class="button is-static">标题纵轴位置</a>
+        </p>
+        <p class="control is-expanded">
+          <input class="input" type="number" max="100" min="0" v-model="image.titlePositionY">
+        </p>
+      </div>
+
       <!-- <div class="field has-addons">
         <p class="control">
           <a class="button is-static">图片宽高比</a>
@@ -194,7 +212,7 @@
 
     <div class="column is-three-quarters generate-column-right">
       <div class="box is-unselectable output-image-html" id="imageHtml" :style="imageBoxStyle">
-        <h3 class="title is-3" :style="imageTitleStyle">{{ renderText }}</h3>
+        <h3 class="title is-3 render-text" :style="imageTitleStyle">{{ renderText }}</h3>
         <p class="author" :style="imageAuthorStyle">
           author:
           <span class="author-name">{{ image.author }}</span>
@@ -225,6 +243,8 @@ declare module "vue/types/vue" {
       width: number;
       height: number;
       ratio: string;
+      titlePositionX: number;
+      titlePositionY: number;
       titleFontSize: number;
       authorFontSize: number;
       titleFontWeight: number;
@@ -277,9 +297,17 @@ declare module "vue/types/vue" {
       };
     },
     imageTitleStyle(): object {
-      const { titleColor, titleFontSize, titleFontWeight } = this.image;
+      const {
+        titleColor,
+        titleFontSize,
+        titleFontWeight,
+        titlePositionX,
+        titlePositionY
+      } = this.image;
       return {
         color: titleColor,
+        top: titlePositionY + "%",
+        left: titlePositionX + "%",
         fontWeight: titleFontWeight,
         fontSize: titleFontSize + "px"
       };
@@ -319,6 +347,8 @@ export default class GenerateImage extends Vue {
     width: 720,
     height: 240,
     ratio: "3by1",
+    titlePositionX: 50,
+    titlePositionY: 50,
     titleFontSize: 32,
     authorFontSize: 16,
     titleFontWeight: 600,
@@ -376,14 +406,17 @@ export default class GenerateImage extends Vue {
 
 .output-image-html {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: 0;
   margin: 0 auto;
   margin-bottom: 1.5rem;
   color: #fff;
   background-repeat: no-repeat;
+  .render-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
   .author {
     position: absolute;
     bottom: 1rem;
